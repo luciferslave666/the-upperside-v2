@@ -19,17 +19,11 @@ class Product extends Model
         'is_available',
     ];
 
-    /**
-     * Mendefinisikan tipe data untuk atribut.
-     */
     protected $casts = [
         'price' => 'integer',
         'is_available' => 'boolean',
     ];
 
-    /**
-     * Mendefinisikan relasi "banyak-ke-satu" dengan model Category.
-     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);

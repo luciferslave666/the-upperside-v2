@@ -14,9 +14,6 @@ class Table extends Model
         'name',
     ];
 
-    /**
-     * Mendefinisikan relasi "satu-ke-banyak" dengan model Order.
-     */
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);

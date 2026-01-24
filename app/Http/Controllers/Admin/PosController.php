@@ -11,9 +11,6 @@ use Illuminate\Validation\Rule;
 
 class PosController extends Controller
 {
-    /**
-     * Menampilkan halaman Point of Sale (POS)
-     */
     public function index(): View
     {
         $statuses = ['pending', 'paid', 'processing'];
@@ -34,9 +31,6 @@ class PosController extends Controller
         ]);
     }
 
-    /**
-     * Memperbarui status pesanan dari halaman POS.
-     */
     public function updateStatus(Request $request, Order $order): RedirectResponse
     {
         $validated = $request->validate([
@@ -57,11 +51,6 @@ class PosController extends Controller
         return redirect()->route('pos.index')->with('success', "Status Pesanan #{$order->id} berhasil diupdate!");
     }
 
-
-    /**
-     * Mengambil data pesanan dan mengembalikannya sebagai
-     * view HTML partial untuk di-load oleh AJAX.
-     */
     public function fetchKanbanData(): View
     {
 

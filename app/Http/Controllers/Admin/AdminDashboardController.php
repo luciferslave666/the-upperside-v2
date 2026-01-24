@@ -17,28 +17,20 @@ class AdminDashboardController extends Controller
 {
     public function index(): View
     {
-        // ============================
-        // 1. Pendapatan Hari Ini
-        // ============================
+        // Pendapatan Hari Ini
         $revenueToday = Order::where('payment_status', 'success')
                              ->whereDate('created_at', Carbon::today())
                              ->sum('total_price');
 
-        // ============================
-        // 2. Pesanan Masuk Hari Ini
-        // ============================
+        // Pesanan Masuk Hari Ini
         $ordersTodayCount = Order::whereDate('created_at', Carbon::today())
                                  ->count();
 
-        // ============================
-        // 3. Pesanan Menunggu Pembayaran
-        // ============================
+        // Pesanan Menunggu Pembayaran
         $pendingOrdersCount = Order::where('status', 'pending')
                                    ->count();
 
-        // ============================
         // 4. Menu Terlaris
-        // ============================
         $topSellingProducts = OrderItem::select(
                                 'products.name as product_name',
                                 DB::raw('SUM(order_items.quantity) as total_sold')
@@ -51,9 +43,7 @@ class AdminDashboardController extends Controller
                               ->take(5)
                               ->get();
 
-        // ============================
-        // 5. QUICK STATS (Tambahan Baru)
-        // ============================
+        // QUICK STATS 
 
         // Total menu
         $totalMenu = Product::count();
@@ -65,16 +55,12 @@ class AdminDashboardController extends Controller
         $totalStaff = User::where('role', 'staff')->count();
 
 
-        // ============================
-        // 6. RETURN VIEW + DATA
-        // ============================
+        // RETURN VIEW + DATA
         return view('dashboard', [
             'revenueToday'       => $revenueToday,
             'ordersTodayCount'   => $ordersTodayCount,
             'pendingOrdersCount' => $pendingOrdersCount,
             'topSellingProducts' => $topSellingProducts,
-
-            // DATA TAMBAHAN BARU
             'totalMenu'          => $totalMenu,
             'totalTables'        => $totalTables,
             'totalStaff'         => $totalStaff,

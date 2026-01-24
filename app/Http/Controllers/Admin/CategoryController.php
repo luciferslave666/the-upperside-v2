@@ -23,7 +23,6 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
-        // Cek apakah kategori sedang dipakai produk
         if ($category->products()->count() > 0) {
             return back()->with('error', 'Gagal! Kategori ini sedang dipakai oleh produk.');
         }

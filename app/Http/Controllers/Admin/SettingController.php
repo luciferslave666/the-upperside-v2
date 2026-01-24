@@ -5,22 +5,19 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Setting; // <-- Import model
+use App\Models\Setting;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 
 class SettingController extends Controller
 {
-    /**
-     * Menampilkan halaman pengaturan.
-     */
     public function index(): View
     {
-        // Gunakan firstOrCreate() untuk memastikan data ada.
-        // Jika 'tax_percent' belum ada, buat baru dengan nilai '11' (11%).
+        // firstOrCreate() untuk memastikan data ada.
+        // Jika 'tax_percent' belum ada, buat baru dengan nilai '10' (10%).
         $tax = Setting::firstOrCreate(
             ['key' => 'tax_percent'],
-            ['value' => '11'] 
+            ['value' => '10'] 
         );
 
         // Jika 'service_percent' belum ada, buat baru dengan nilai '5' (5%).
@@ -35,19 +32,16 @@ class SettingController extends Controller
         ]);
     }
 
-    /**
-     * Memperbarui pengaturan di database.
-     */
     public function update(Request $request): RedirectResponse
     {
-        // 1. Validasi input
+        // Validasi input
         $validated = $request->validate([
             'tax_percent' => 'required|numeric|min:0|max:100',
             'service_percent' => 'required|numeric|min:0|max:100',
         ]);
 
-        // 2. Gunakan updateOrCreate() untuk menyimpan pengaturan
-        // (Ini akan meng-update jika 'key' sudah ada, atau membuat baru jika belum)
+        // updateOrCreate() untuk menyimpan pengaturan
+        // (meng-update jika 'key' sudah ada, atau membuat baru jika belum)
         Setting::updateOrCreate(
             ['key' => 'tax_percent'],
             ['value' => $validated['tax_percent']]
@@ -58,7 +52,7 @@ class SettingController extends Controller
             ['value' => $validated['service_percent']]
         );
 
-        // 3. Redirect kembali dengan pesan sukses
+        // Redirect kembali dengan pesan sukses
         return redirect()->route('admin.products.index')->with('success', 'Pengaturan pajak & layanan berhasil disimpan!');
     }
 }

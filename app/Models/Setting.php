@@ -8,7 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Setting extends Model
 {
     use HasFactory;
-
-    // Izinkan 'key' dan 'value' untuk diisi
     protected $fillable = ['key', 'value'];
 }

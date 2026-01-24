@@ -16,7 +16,6 @@ class Order extends Model
         'customer_name',
         'number_of_people',
 
-        // ⬇️ Tambahkan ini
         'subtotal',
         'service_fee_amount',
         'tax_amount',
