@@ -1,0 +1,1 @@
+class AddEstimatedTimeAndCompletedAtToOrders < ActiveRecord::Migration[6.0]\n  def change\n    add_column :orders, :estimated_time, :integer\n    add_column :orders, :completed_at, :datetime\n  end\nend
