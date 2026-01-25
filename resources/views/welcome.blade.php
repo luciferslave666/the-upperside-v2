@@ -18,13 +18,12 @@
             </a>
 
             <div class="hidden md:flex items-center gap-8 font-bold uppercase tracking-wide text-sm">
-                <a href="#about" class="hover:bg-brand-yellow hover:px-2 transition-all duration-300 border-2 border-transparent hover:border-black">Story</a>
                 <a href="#menu" class="hover:bg-brand-yellow hover:px-2 transition-all duration-300 border-2 border-transparent hover:border-black">Menu</a>
                 <a href="#moments" class="hover:bg-brand-yellow hover:px-2 transition-all duration-300 border-2 border-transparent hover:border-black">Moments</a>
                 <a href="#location" class="hover:bg-brand-yellow hover:px-2 transition-all duration-300 border-2 border-transparent hover:border-black">Visit</a>
             </div>
 
-            <a href="{{ route('order.start') }}" class="hidden md:block px-6 py-2 bg-brand-purple text-white font-bold border-2 border-black shadow-retro hover:shadow-retro-hover hover:-translate-y-1 transition-all duration-300">
+            <a href="#contact" class="hidden md:block px-6 py-2 bg-brand-purple text-white font-bold border-2 border-black shadow-retro hover:shadow-retro-hover hover:-translate-y-1 transition-all duration-300">
                 Book Table
             </a>
         </div>
@@ -46,7 +45,7 @@
                     Rasakan sensasi ngopi di ketinggian dengan gaya yang berbeda. Bukan sekadar tempat nongkrong, ini adalah <span class="bg-brand-purple text-white px-1">kultur baru.</span>
                 </p>
                 <div class="flex flex-wrap gap-4">
-                    <a href="{{ route('order.start') }}" class="px-8 py-4 bg-black text-white font-bold border-2 border-black shadow-retro hover:bg-white hover:text-black transition-all">
+                    <a href=#menu class="px-8 py-4 bg-black text-white font-bold border-2 border-black shadow-retro hover:bg-white hover:text-black transition-all">
                         EXPLORE MENU
                     </a>
                     <a href="#location" class="px-8 py-4 bg-transparent font-bold border-2 border-black hover:bg-black hover:text-white transition-all">
@@ -141,8 +140,8 @@
             @endif
 
             <div class="text-center mt-12">
-                 <a href="{{ route('order.start') }}" class="inline-block px-10 py-4 bg-brand-yellow text-black font-display uppercase tracking-widest border-4 border-black shadow-retro hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all">
-                    View Full Menu ->
+                 <a href="{{ route('full-menu') }}" class="inline-block px-10 py-4 bg-brand-yellow text-black font-display uppercase tracking-widest border-4 border-black shadow-retro hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all">
+                    View Full Menu &rarr;
                 </a>
             </div>
         </div>
@@ -213,21 +212,22 @@
                 </div>
             </div>
             
-            <a href="https://goo.gl/maps" class="mt-12 inline-block text-center w-full py-4 bg-black text-white font-display uppercase tracking-widest border-2 border-white hover:bg-white hover:text-black transition-colors">
+            <a href="https://www.google.com/maps/place/The+Upperside/@-6.873074,107.517472,12z/data=!4m6!3m5!1s0x2e68e5bf98c27365:0x36335362113170c8!8m2!3d-6.878528!4d107.5396739!16s%2Fg%2F11t0tfk465?hl=id&entry=ttu&g_ep=EgoyMDI2MDEyMS4wIKXMDSoASAFQAw%3D%3D" class="mt-12 inline-block text-center w-full py-4 bg-black text-white font-display uppercase tracking-widest border-2 border-white hover:bg-white hover:text-black transition-colors">
                 Get Directions
             </a>
         </div>
 
-        <div class="md:w-1/2 min-h-[500px] relative bg-gray-200">
-            <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d126755.225039052!2d107.3872386!3d-6.878528!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e5bf98c27365%3A0x36335362113170c8!2sThe%20Upperside!5e0!3m2!1sid!2sid!4v1763217423507!5m2!1sid!2sid" 
-                width="100%" 
-                height="100%" 
-                style="border:0; filter: grayscale(100%) contrast(1.2);" 
-                allowfullscreen="" 
-                loading="lazy">
-            </iframe>
-            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-brand-yellow border-2 border-black px-4 py-2 font-display uppercase shadow-retro text-xl">
+        <div class="md:w-1/2 w-full relative bg-gray-200 flex items-center md:h-[400px]">
+            <div class="w-full aspect-w-16 aspect-h-9 md:aspect-auto md:h-full md:w-full">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d126755.225039052!2d107.3872386!3d-6.878528!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e5bf98c27365%3A0x36335362113170c8!2sThe%20Upperside!5e0!3m2!1sid!2sid!4v1763217423507!5m2!1sid!2sid" 
+                    class="w-full h-full border-0" 
+                    style="filter: grayscale(100%) contrast(1.2);" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-brand-yellow border-2 border-black px-4 py-2 font-display uppercase shadow-retro text-xl pointer-events-none">
                 We Are Here
             </div>
         </div>
@@ -251,8 +251,8 @@
             <div class="border-t border-gray-800 pt-10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-bold uppercase tracking-widest text-gray-500">
                 <p>© 2025 THE UPPERSIDE TM.</p>
                 <div class="flex gap-6">
-                    <a href="#" class="hover:text-brand-yellow transition">Instagram</a>
-                    <a href="#" class="hover:text-brand-yellow transition">TikTok</a>
+                    <a href="https://www.instagram.com/_theupperside/?hl=id" class="hover:text-brand-yellow transition">Instagram</a>
+                    <a href="https://www.tiktok.com/@_theupperside" class="hover:text-brand-yellow transition">TikTok</a>
                 </div>
             </div>
         </div>

@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\CategoryController;
 
 // Landing Page
 Route::get('/', [LandingPageController::class, 'index'])->name('landing.index');
+Route::get('/full-menu', [LandingPageController::class, 'fullMenu'])->name('full-menu');
 
 // Order Flow (Manual)
 Route::get('/order', [CustomerOrderController::class, 'showStartForm'])->name('order.start');

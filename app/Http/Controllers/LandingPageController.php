@@ -63,4 +63,15 @@ class LandingPageController extends Controller
             'table' => $table
         ]);
     }
+
+    /**
+     * Halaman Full Menu (semua kategori & produk)
+     */
+    public function fullMenu(): View
+    {
+        $categories = \App\Models\Category::with(['products' => function($q) {
+            $q->where('is_available', true)->orderBy('name');
+        }])->orderBy('name')->get();
+        return view('full-menu', compact('categories'));
+    }
 }
