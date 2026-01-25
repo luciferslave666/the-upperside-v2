@@ -1,0 +1,1 @@
+class AddEstimatedTimeToProducts < ActiveRecord::Migration[6.0]\n  def change\n    add_column :products, :estimated_time, :integer\n  end\nend
