@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -23,6 +22,7 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+        // Opsional: Cek apakah kategori sedang dipakai produk
         if ($category->products()->count() > 0) {
             return back()->with('error', 'Gagal! Kategori ini sedang dipakai oleh produk.');
         }

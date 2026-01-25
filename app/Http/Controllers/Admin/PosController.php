@@ -8,6 +8,7 @@ use App\Models\Order;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\Rule;
+use Carbon\Carbon;
 
 class PosController extends Controller
 {
@@ -42,8 +43,9 @@ class PosController extends Controller
 
         $order->status = $validated['status'];
 
-        if ($validated['status'] == 'paid') {
-            $order->payment_status = 'success';
+        // TAMBAH INI: Jika status completed, set completed_at
+        if ($validated['status'] == 'completed') {
+            $order->completed_at = Carbon::now();
         }
 
         $order->save();
@@ -53,7 +55,6 @@ class PosController extends Controller
 
     public function fetchKanbanData(): View
     {
-
         $statuses = ['pending', 'paid', 'processing'];
         
         $orders = Order::whereIn('status', $statuses)
@@ -71,4 +72,4 @@ class PosController extends Controller
             'processingOrders' => $processingOrders,
         ]);
     }
-}   
+}

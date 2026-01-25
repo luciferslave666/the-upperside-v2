@@ -72,4 +72,59 @@ class CustomerOrderController extends Controller
             'cartTotalQuantity' => $cartTotalQuantity 
         ]);
     }
+    /**
+ * Menampilkan form order berdasarkan QR Code meja
+ */
+public function orderByQr(string $qrCode): View|RedirectResponse
+{
+    // Cari table berdasarkan QR Code
+    $table = Table::where('qr_code', $qrCode)->first();
+
+    if (!$table) {
+        return redirect()->route('order.start')
+            ->with('error', 'QR Code tidak valid atau meja tidak ditemukan.');
+    }
+
+    // Set meja langsung di session
+    session()->put('order_details', [
+        'table_id' => $table->id,
+        'customer_name' => null, // Akan diisi di halaman berikutnya
+        'number_of_people' => null,
+    ]);
+
+    // Arahkan ke halaman yang minta nama & jumlah orang
+    return redirect()->route('order.byQr.form');
+}
+
+/**
+ * Tampilkan form isian nama dan jumlah orang (untuk QR scan)
+ */
+public function showQrForm(): View|RedirectResponse
+{
+    if (!session()->has('order_details') || !session('order_details.table_id')) {
+        return redirect()->route('order.start')
+            ->with('error', 'Sesi Anda tidak valid.');
+    }
+
+    $table = Table::find(session('order_details.table_id'));
+
+    return view('order.qr-form', ['table' => $table]);
+}
+
+/**
+ * Proses form dari QR scan
+ */
+public function handleQrForm(Request $request): RedirectResponse
+{
+    $validated = $request->validate([
+        'customer_name' => 'required|string|max:255',
+        'number_of_people' => 'required|integer|min:1',
+    ]);
+
+    // Update session dengan data yang baru diisi
+    session()->put('order_details.customer_name', $validated['customer_name']);
+    session()->put('order_details.number_of_people', $validated['number_of_people']);
+
+    return redirect()->route('order.menu');
+}
 }

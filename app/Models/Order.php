@@ -26,6 +26,8 @@ class Order extends Model
         'payment_status',
         'payment_gateway_token',
         'notes',
+        'estimated_time',
+        'completed_at'
     ];
 
     protected $casts = [
@@ -33,6 +35,8 @@ class Order extends Model
         'service_fee_amount' => 'integer',
         'tax_amount' => 'integer',
         'total_price' => 'integer',
+        'estimated_time' => 'integer',
+        'completed_at' => 'datetime',
     ];
 
     public function table(): BelongsTo
@@ -43,5 +47,24 @@ class Order extends Model
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+    public function calculateEstimatedTime(): int
+    {
+        if ($this->orderItems->isEmpty()) {
+            return 0;
+        }
+
+        // Ambil estimated_time tertinggi dari semua products di order ini
+        return $this->orderItems->max(function ($item) {
+            return $item->product->estimated_time ?? 15; // Default 15 menit jika tidak ada
+        });
+    }
+
+    /**
+     * Method Helper: Cek apakah order sudah selesai
+     */
+    public function isCompleted(): bool
+    {
+        return $this->status === 'completed' && $this->completed_at !== null;
     }
 }

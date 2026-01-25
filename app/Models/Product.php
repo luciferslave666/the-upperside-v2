@@ -17,11 +17,13 @@ class Product extends Model
         'image',
         'price',
         'is_available',
+        'estimated_time',
     ];
 
     protected $casts = [
         'price' => 'integer',
         'is_available' => 'boolean',
+        'estimated_time' => 'integer',
     ];
 
     public function category(): BelongsTo

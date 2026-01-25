@@ -12,6 +12,7 @@ class Table extends Model
 
     protected $fillable = [
         'name',
+        'qr_code',
     ];
 
     public function orders(): HasMany

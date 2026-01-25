@@ -87,7 +87,7 @@
                         @enderror
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
                             <label for="price" class="block text-sm font-medium text-gray-700 mb-2">Harga</label>
                             <div class="relative rounded-lg">
@@ -99,6 +99,16 @@
                                        required>
                             </div>
                             @error('price') 
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label for="estimated_time" class="block text-sm font-medium text-gray-700 mb-2">Estimasi Waktu (menit)</label>
+                            <input id="estimated_time" name="estimated_time" type="number" min="5" max="120" value="{{ old('estimated_time', $product->estimated_time ?? 15) }}"
+                                   class="block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required placeholder="15">
+                            <p class="text-xs text-gray-500 mt-1">Isi estimasi waktu penyajian (5-120 menit)</p>
+                            @error('estimated_time')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>

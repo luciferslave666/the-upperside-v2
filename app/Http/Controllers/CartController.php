@@ -72,44 +72,13 @@ class CartController extends Controller
     }
 
     /**
-     * Menampilkan halaman keranjang belanja dengan perhitungan subtotal, service fee, tax, grand total.
+     * Menampilkan halaman keranjang belanja - SUDAH TIDAK DIGUNAKAN
+     * Arahkan ke order.menu saja
      */
-    public function showCart(): View|RedirectResponse
+    public function showCart(): RedirectResponse
     {
-        if (!session()->has('order_details')) {
-            return redirect()->route('order.start');
-        }
-
-        $tableId = session('order_details.table_id');
-
-        $cartItems = Cart::session($tableId)->getContent()->sortBy('name');
-
-        // SUBTOTAL
-        $subtotal = Cart::session($tableId)->getTotal();
-
-        // Ambil persentase dari database
-        $service_percent = (float) (Setting::where('key', 'service_percent')->first()->value ?? 0);
-        $tax_percent = (float) (Setting::where('key', 'tax_percent')->first()->value ?? 0);
-
-        // HITUNG SERVICE FEE
-        $service_fee_amount = round(($subtotal * $service_percent) / 100);
-
-        // Pajak dihitung setelah service fee ditambah
-        $tax_base = $subtotal + $service_fee_amount;
-        $tax_amount = round(($tax_base * $tax_percent) / 100);
-
-        // GRAND TOTAL
-        $grand_total = $tax_base + $tax_amount;
-
-        return view('cart.index', [
-            'cartItems' => $cartItems,
-            'subtotal' => $subtotal,
-            'service_fee_amount' => $service_fee_amount,
-            'tax_amount' => $tax_amount,
-            'grand_total' => $grand_total,
-            'service_percent' => $service_percent,
-            'tax_percent' => $tax_percent,
-        ]);
+        return redirect()->route('order.menu')
+            ->with('info', 'Silakan gunakan modal untuk mengelola keranjang.');
     }
 
     /**
@@ -159,7 +128,7 @@ class CartController extends Controller
                 ]);
             }
 
-            return redirect()->route('cart.index')
+            return redirect()->route('order.menu')
                 ->with('success', 'Kuantitas berhasil diperbarui.');
         } catch (\Exception $e) {
             if ($request->ajax() || $request->wantsJson()) {
@@ -202,7 +171,7 @@ class CartController extends Controller
                 ]);
             }
 
-            return redirect()->route('cart.index')
+            return redirect()->route('order.menu')
                 ->with('success', 'Item berhasil dihapus dari keranjang.');
         } catch (\Exception $e) {
             if ($request->ajax() || $request->wantsJson()) {

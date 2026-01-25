@@ -128,7 +128,7 @@
                                     <td colspan="5" class="px-6 py-12 text-center">
                                         <div class="flex flex-col items-center justify-center text-gray-400">
                                             <svg class="w-12 h-12 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16-0a2 2 0 00-2-2m2 2a2 2 0 01-2 2m-2-2a2 2 0 00-2-2m2 2a2 2 0 01-2 2"/>
                                             </svg>
                                             <span class="text-sm font-medium">Belum ada menu</span>
                                         </div>
@@ -142,8 +142,9 @@
         </div>
     </div>
 
-    <x-modal name="settings-modal" focusable>
-        <div class="bg-white rounded-lg overflow-hidden">
+    <!-- MODAL SETTINGS - FIXED VERSION -->
+    <x-modal name="settings-modal">
+        <div class="bg-white rounded-lg overflow-hidden" @click.stop>
             <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
                 <h2 class="text-lg font-semibold text-gray-900">
                     Pengaturan Biaya
@@ -153,7 +154,7 @@
                 </p>
             </div>
 
-            <form method="POST" action="{{ route('admin.settings.update') }}" class="p-6">
+            <form id="settings-form" method="POST" action="{{ route('admin.settings.update') }}" class="p-6" @click.stop>
                 @csrf
                 <div class="grid grid-cols-2 gap-6">
                     <div>
@@ -180,7 +181,7 @@
                             class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                         Batal
                     </button>
-                    <button type="submit" 
+                    <button type="button" id="submit-settings-btn"
                             class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                         Simpan Perubahan
                     </button>
@@ -188,5 +189,29 @@
             </form>
         </div>
     </x-modal>
+
+    <!-- JAVASCRIPT - EXPLICIT FORM SUBMISSION -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const submitBtn = document.getElementById('submit-settings-btn');
+            const settingsForm = document.getElementById('settings-form');
+            
+            if (submitBtn && settingsForm) {
+                submitBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Validasi form
+                    if (settingsForm.checkValidity() === false) {
+                        e.preventDefault();
+                        return false;
+                    }
+                    
+                    // Submit form secara langsung
+                    settingsForm.submit();
+                });
+            }
+        });
+    </script>
 
 </x-app-layout>

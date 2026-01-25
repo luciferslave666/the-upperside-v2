@@ -1,5 +1,6 @@
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
 
+    {{-- ================= MENUNGGU BAYAR ================= --}}
     <div class="flex flex-col h-full">
         <div class="bg-brand-yellow border-4 border-black p-4 shadow-retro mb-6 relative">
             <h3 class="font-display text-xl uppercase leading-none">Menunggu <br>Bayar</h3>
@@ -11,6 +12,7 @@
         <div class="space-y-6">
             @forelse ($pendingOrders as $order)
                 <div class="bg-white border-2 border-black p-5 shadow-retro-sm relative group hover:-translate-y-1 transition-transform duration-200">
+                    
                     <div class="flex justify-between items-start mb-3 border-b-2 border-dashed border-gray-300 pb-2">
                         <div>
                             <span class="bg-black text-white px-2 py-0.5 font-display text-lg">#{{ $order->id }}</span>
@@ -36,16 +38,28 @@
                     </ul>
 
                     <div class="flex justify-between items-center mt-4 pt-3 border-t-2 border-black">
-                        <p class="font-display text-lg">Rp {{ number_format($order->total_price, 0, ',', '.') }}</p>
+                        <p class="font-display text-lg">
+                            Rp {{ number_format($order->total_price, 0, ',', '.') }}
+                        </p>
                     </div>
 
+                    {{-- MARK PAID --}}
                     <form action="{{ route('pos.order.updateStatus', $order) }}" method="POST" class="mt-3">
                         @csrf
                         <input type="hidden" name="status" value="paid">
-                        <button type="submit" class="w-full py-2 px-4 bg-black text-white font-bold uppercase border-2 border-transparent hover:bg-white hover:text-black hover:border-black transition-colors shadow-sm">
+                        <button type="submit"
+                            class="w-full py-2 px-4 bg-black text-white font-bold uppercase border-2 border-transparent hover:bg-white hover:text-black hover:border-black transition-colors shadow-sm mb-2">
                             Mark Paid &rarr;
                         </button>
                     </form>
+
+                    {{-- 🖨️ PRINT STRUK --}}
+                    <a href="{{ route('pos.receipt.show', $order) }}"
+                       target="_blank"
+                       class="block w-full py-2 px-4 bg-blue-600 text-white font-bold uppercase border-2 border-transparent hover:bg-blue-700 transition-colors shadow-sm text-center">
+                        🖨️ Print Struk
+                    </a>
+
                 </div>
             @empty
                 <div class="border-2 border-dashed border-gray-400 p-8 text-center text-gray-400 font-bold">
@@ -55,6 +69,7 @@
         </div>
     </div>
 
+    {{-- ================= ANTRIAN DAPUR ================= --}}
     <div class="flex flex-col h-full">
         <div class="bg-white border-4 border-black p-4 shadow-retro mb-6 relative">
             <h3 class="font-display text-xl uppercase leading-none">Antrian <br>Dapur</h3>
@@ -85,7 +100,9 @@
                     <ul class="text-sm font-bold space-y-2 mb-4 pl-2">
                         @foreach ($order->orderItems as $item)
                             <li class="flex items-start gap-2">
-                                <div class="bg-black text-white w-5 h-5 flex items-center justify-center text-xs flex-shrink-0 mt-0.5">{{ $item->quantity }}</div>
+                                <div class="bg-black text-white w-5 h-5 flex items-center justify-center text-xs flex-shrink-0 mt-0.5">
+                                    {{ $item->quantity }}
+                                </div>
                                 <span>{{ $item->product->name }}</span>
                             </li>
                         @endforeach
@@ -94,7 +111,8 @@
                     <form action="{{ route('pos.order.updateStatus', $order) }}" method="POST" class="mt-4 pl-2">
                         @csrf
                         <input type="hidden" name="status" value="processing">
-                        <button type="submit" class="w-full py-2 px-4 bg-brand-purple text-white font-bold uppercase border-2 border-black hover:bg-white hover:text-brand-purple transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]">
+                        <button type="submit"
+                            class="w-full py-2 px-4 bg-brand-purple text-white font-bold uppercase border-2 border-black hover:bg-white hover:text-brand-purple transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]">
                             Masak Sekarang 🔥
                         </button>
                     </form>
@@ -107,6 +125,7 @@
         </div>
     </div>
 
+    {{-- ================= SEDANG DIMASAK ================= --}}
     <div class="flex flex-col h-full">
         <div class="bg-brand-purple border-4 border-black p-4 shadow-retro mb-6 relative text-white">
             <h3 class="font-display text-xl uppercase leading-none">Sedang <br>Dimasak</h3>
@@ -146,7 +165,8 @@
                     <form action="{{ route('pos.order.updateStatus', $order) }}" method="POST" class="mt-3">
                         @csrf
                         <input type="hidden" name="status" value="completed">
-                        <button type="submit" class="w-full py-2 px-4 bg-green-500 text-white font-bold uppercase border-2 border-black hover:bg-green-600 transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]">
+                        <button type="submit"
+                            class="w-full py-2 px-4 bg-green-500 text-white font-bold uppercase border-2 border-black hover:bg-green-600 transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]">
                             Selesai & Antar ✅
                         </button>
                     </form>
